@@ -190,7 +190,10 @@ library("pacman")
 pacman::p_load(tidyverse,
                org.Hs.eg.db,
                AnnotationDbi,
-               VennDiagram )
+               VennDiagram,
+               readr,
+               dplyr,
+               stringr)
 
 prefix__id_proteome <- "pr."
 prefix__id_rna <- "rna."
@@ -202,15 +205,15 @@ label_pval <- pcsf_pval_cutoff
 my_sscore <- 3.7
 
 # LOAD DATA
-dataList_H9 <- list(proteome = readr::read_delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreInputs/Prot_H9.txt", delim = "\t"),
-                    phosphoproteome = readr::read_delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreInputs/Phospho_H9.txt", delim = "\t"),
-                    rna = readr::read_delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreInputs/RNA_biomaRt_H9.txt", delim = "\t"))
-dataList_JI <- list(proteome = readr::read_delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreInputs/Prot_JI.txt", delim = "\t"),
-                    phosphoproteome = readr::read_delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreInputs/Phospho_JI.txt", delim = "\t"),
-                    rna = readr::read_delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreInputs/RNA_biomaRt_JI.txt", delim = "\t"))
-dataList_KM <- list(proteome = readr::read_delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreInputs/Prot_KM.txt", delim = "\t"),
-                    phosphoproteome = readr::read_delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreInputs/Phospho_KM.txt", delim = "\t"),
-                    rna = readr::read_delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreInputs/RNA_biomaRt_KM.txt", delim = "\t"))
+dataList_H9 <- list(proteome = readr::read_delim("sscoreInputs/Prot_H9.txt", delim = "\t"),
+                    phosphoproteome = readr::read_delim("sscoreInputs/Phospho_H9.txt", delim = "\t"),
+                    rna = readr::read_delim("sscoreInputs/RNA_biomaRt_H9.txt", delim = "\t"))
+dataList_JI <- list(proteome = readr::read_delim("sscoreInputs/Prot_JI.txt", delim = "\t"),
+                    phosphoproteome = readr::read_delim("sscoreInputs/Phospho_JI.txt", delim = "\t"),
+                    rna = readr::read_delim("sscoreInputs/RNA_biomaRt_JI.txt", delim = "\t"))
+dataList_KM <- list(proteome = readr::read_delim("sscoreInputs/Prot_KM.txt", delim = "\t"),
+                    phosphoproteome = readr::read_delim("sscoreInputs/Phospho_KM.txt", delim = "\t"),
+                    rna = readr::read_delim("sscoreInputs/RNA_biomaRt_KM.txt", delim = "\t"))
 
 # RUN
 my_combine_genes_and_metabols_using_sscore(data_list = dataList_H9, 
@@ -789,14 +792,14 @@ pcsfEnrichedSubnet <- function(pcsf_enrich_pathway,
 
 ## RUN -------------------------------------------------------------------------
 # WITHOUT INTERACTOME
-H9 <- read.delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreOutputs_biomaRt/sscore_pcsf_prize_pval0.05_H9_diffWeights.txt", sep = "\t")
-JI <- read.delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreOutputs_biomaRt/sscore_pcsf_prize_pval0.05_JI_diffWeights.txt", sep = "\t")
-KM <- read.delim("~/Downloads/Raghu_Myeloma_CorrectedSscore/sscoreOutputs_biomaRt/sscore_pcsf_prize_pval0.05_KM_diffWeights.txt", sep = "\t")
+H9 <- read.delim("PCSF/sscore_pcsf_prize_pval0.05_H9_diffWeights.txt", sep = "\t")
+JI <- read.delim("PCSF/sscore_pcsf_prize_pval0.05_JI_diffWeights.txt", sep = "\t")
+KM <- read.delim("PCSF/sscore_pcsf_prize_pval0.05_KM_diffWeights.txt", sep = "\t")
 
 # WITH INTERACTOME
-H9 <- openxlsx::read.xlsx("~/Downloads/Raghu_Myeloma_CorrectedSscore/PCSF/sscorePLUSinteractome_pcsf_prize_pval0.05_diffWeights.xlsx", sheet = "H9")
-JI <- openxlsx::read.xlsx("~/Downloads/Raghu_Myeloma_CorrectedSscore/PCSF/sscorePLUSinteractome_pcsf_prize_pval0.05_diffWeights.xlsx", sheet = "JI")
-KM <- openxlsx::read.xlsx("~/Downloads/Raghu_Myeloma_CorrectedSscore/PCSF/sscorePLUSinteractome_pcsf_prize_pval0.05_diffWeights.xlsx", sheet = "KM")
+H9 <- openxlsx::read.xlsx("PCSF/sscorePLUSinteractome_pcsf_prize_pval0.05_diffWeights.xlsx", sheet = "H9")
+JI <- openxlsx::read.xlsx("PCSF/sscorePLUSinteractome_pcsf_prize_pval0.05_diffWeights.xlsx", sheet = "JI")
+KM <- openxlsx::read.xlsx("PCSF/sscorePLUSinteractome_pcsf_prize_pval0.05_diffWeights.xlsx", sheet = "KM")
 
 # SET mu
 mu = 0.0005
